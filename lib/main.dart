@@ -10,143 +10,67 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: Scaffold(
-        appBar: AppBar(
-          title: const Text('CC 302 Activity'),
-        ),
-        body: const Center(
-          child: SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: Padding(
-              padding: EdgeInsets.all(16.0),
-              child: Row(
-                children: [
-                  // First Container: Math Card
-                  MathCardWidget(),
-                  SizedBox(width: 16),
-                  // Second Container: Geography Card
-                  GeographyCardWidget(),
-                ],
-              ),
-            ),
-          ),
-        ),
+      title: 'Product List App',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
       ),
+      home: ProductListScreen(),
     );
   }
 }
 
-/// Left Container: Math Card
-class MathCardWidget extends StatelessWidget {
-  const MathCardWidget({super.key});
+class ProductListScreen extends StatelessWidget {
+  // Product data with custom prices
+  final List<Map<String, dynamic>> products = [
+    {'name': 'smartphone', 'price': 900.00},
+    {'name': 'tablet', 'price': 1500.00},
+    {'name': 'soy sauce', 'price': 1.50},
+    {'name': 'sugar', 'price': 2.00},
+    {'name': 'red horse', 'price': 2.00},
+  ];
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 200,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.blue, // Blue color specified on whiteboard
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header row with Calculator Icon and Bold White Text
-          const Row(
-            children: [
-              Icon(Icons.calculate, color: Colors.white, size: 24), // Calculator Icon
-              SizedBox(width: 8),
-              Text(
-                'Math Card',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+    return Scaffold(
+      appBar: AppBar(title: Text('Product List Exercise')),
+      body: Center(
+        // Outer Container
+        child: Container(
+          width: 350,
+          height: 500,
+          padding: EdgeInsets.all(12.0),
+          decoration: BoxDecoration(
+            border: Border.all(color: Colors.grey),
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          // ListView inside the Container
+          child: ListView.builder(
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return Card(
+                elevation: 2.0,
+                margin: EdgeInsets.symmetric(vertical: 6.0),
+                child: ListTile(
+                  title: Text(
+                    product['name'],
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  trailing: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.attach_money, size: 18, color: Colors.green),
+                      Text(
+                        '${product['price'].toStringAsFixed(2)}',
+                        style: TextStyle(fontSize: 16),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              );
+            },
           ),
-          const Spacer(),
-          // Equations in Column
-          const Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text('2 x 2', style: TextStyle(color: Colors.white, fontSize: 14)),
-              Text('2 x 3', style: TextStyle(color: Colors.white, fontSize: 14)),
-              Text('2 x 4', style: TextStyle(color: Colors.white, fontSize: 14)),
-            ],
-          ),
-          const Spacer(),
-        ],
-      ),
-    );
-  }
-}
-
-/// Right Container: Geography Card
-class GeographyCardWidget extends StatelessWidget {
-  const GeographyCardWidget({super.key});
-
-  @override
-  Widget softwareApp(BuildContext context) => throw UnimplementedError();
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 300,
-      height: 200,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: Colors.red, // Red color specified on whiteboard
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Header row with centered text concept
-          const Center(
-            child: Text(
-              'Geography Card',
-              style: TextStyle(
-                color: Colors.white, // White text color specified
-                fontWeight: FontWeight.bold,
-                fontSize: 16,
-              ),
-            ),
-          ),
-          const Spacer(),
-          // World Map (with Map Icon/Logo) and Location (with Location Icon) in Column
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start, // crossAxisAlignment.start as noted
-            children: [
-              Row(
-                children: const [
-                  Icon(Icons.map, color: Colors.white, size: 20), // Map Logo/Icon
-                  SizedBox(width: 8),
-                  Text(
-                    'World Map',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              Row(
-                children: const [
-                  Icon(Icons.location_on, color: Colors.white, size: 20), // Location Icon/Logo
-                  SizedBox(width: 8),
-                  Text(
-                    'Location',
-                    style: TextStyle(color: Colors.white, fontSize: 14),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          const Spacer(),
-        ],
+        ),
       ),
     );
   }
